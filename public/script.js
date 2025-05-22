@@ -14,7 +14,6 @@ async function fetchTasks() {
     tasks.forEach(task => {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td>${task.id}</td>
         <td>${task.title}</td>
         <td>${task.description || ''}</td>
         <td class="actions-cell">
