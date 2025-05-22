@@ -17,14 +17,16 @@ async function fetchTasks() {
         <td>${task.id}</td>
         <td>${task.title}</td>
         <td>${task.description || ''}</td>
-        <td>
+        <td class="actions-cell">
           <button class="edit-btn" 
             data-id="${task.id}" 
             data-title="${encodeURIComponent(task.title)}" 
             data-description="${encodeURIComponent(task.description || '')}">
-            Edit
+            <i class="fas fa-edit"></i> Edit
           </button>
-          <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+          <button class="delete-btn" onclick="deleteTask(${task.id})">
+            <i class="fas fa-trash"></i> Delete
+          </button>
         </td>
       `;
       taskTable.appendChild(row);
@@ -72,10 +74,11 @@ taskForm.onsubmit = async (e) => {
 };
 
 taskTable.addEventListener('click', (e) => {
-  if (e.target.classList.contains('edit-btn')) {
-    const id = e.target.dataset.id;
-    const title = decodeURIComponent(e.target.dataset.title);
-    const description = decodeURIComponent(e.target.dataset.description);
+  if (e.target.classList.contains('edit-btn') || e.target.closest('.edit-btn')) {
+    const button = e.target.classList.contains('edit-btn') ? e.target : e.target.closest('.edit-btn');
+    const id = button.dataset.id;
+    const title = decodeURIComponent(button.dataset.title);
+    const description = decodeURIComponent(button.dataset.description);
     editTask(id, title, description);
   }
 });
@@ -85,6 +88,9 @@ function editTask(id, title, description) {
   titleField.value = title;
   descriptionField.value = description;
   titleField.focus();
+  
+  // Scroll to form
+  taskForm.scrollIntoView({ behavior: 'smooth' });
 }
 
 async function deleteTask(id) {
@@ -101,4 +107,5 @@ async function deleteTask(id) {
   }
 }
 
+// Initial load
 fetchTasks(); 
