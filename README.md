@@ -69,14 +69,7 @@ todo_app/
 
 To start the development server with hot-reload:
 ```bash
-npm run dev
-```
-
-## Production
-
-To start the production server:
-```bash
-npm start
+node server.js
 ```
 
 ### Database Setup
